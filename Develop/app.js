@@ -1,3 +1,9 @@
+// QUESTIONS IN ORDER OF IMPORTANCE *************
+// 1. get init to rerun on yes and push to array correctly
+// 2. render html
+// 3. get different questions to appear based on role
+// 4. Data validation
+
 const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
@@ -10,9 +16,100 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
+const employees = [];
 
-// Write code to use inquirer to gather information about the development team members,
+// Data Validation Functions ====================================
+
+    // const stringValidate = function(input) {
+    //     if(typeof input !== "string") {
+    //         return "please enter valid name"
+    //     }
+    // }
+    // const stringPromise = 
+    //     (new Promise(stringValidate))
+    //         .then()
+// ==============================================================
+
+// inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
+const employeeQuestions = [
+    {
+        type: "input",
+        message: "What is the employee's name?",
+        name: "name",
+        // validate: stringPromise
+    },
+    {
+        type: "input",
+        message: "What is the employee's ID number?",
+        name: "id"
+    },
+    {
+        type: "input",
+        message: "What is the employee's email?",
+        name: "install"
+    },
+    {
+        type: "list",
+        message: "What is the role of this employee?",
+        name: "role",
+        choices: [
+            "Intern",
+            "Engineer",
+            "Manager"
+        ]
+    },
+    {
+        type: "confirm",
+        message: "Would you like to add another employee?",
+        name: "oneMore"
+    }
+]
+const internQuestions = [
+    {
+        type: "input",
+        message: "Where does the intern attend school?",
+        name: "school"
+    }
+]
+
+const engineerQuestions = [
+    {
+        type: "input",
+        message: "What is the engineer's Github?",
+        name: "github"
+    }
+]
+
+const managerQuestions = [
+    {
+        type: "input",
+        message: "What is the manager's office number?",
+        name: "office"
+    }
+]
+
+function init() {
+    return inquirer.prompt(employeeQuestions);
+}
+
+// Do while loop????
+init()
+    .then(function(answers){
+        console.log(answers.oneMore);
+        employees.push(answers)
+        console.log(employees);
+        if(answers.oneMore === true) {
+            init()
+        } else {
+            return console.log(employees)
+        }
+        
+    })
+    .catch(function(err) {
+        console.log(err);
+    });
+
 
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
